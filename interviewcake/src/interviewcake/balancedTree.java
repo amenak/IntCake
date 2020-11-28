@@ -8,6 +8,11 @@ import org.junit.runner.notification.Failure;
 
 import static org.junit.Assert.*;
 
+import java.awt.List;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+
 public class balancedTree {
 
     public static class BinaryTreeNode {
@@ -30,15 +35,79 @@ public class balancedTree {
             return this.right;
         }
     }
+    
+    public static class NodeDepth{
+    	BinaryTreeNode n; 
+    	int Depth;
+    	
+    	public NodeDepth(BinaryTreeNode node, int d) {
+    		n = node; 
+    		Depth = d; 
+    	}
+    }
+    
 
     public static boolean isBalanced(BinaryTreeNode treeRoot) {
-
+    	//int sum = 0;
+    	//int x = travTest(treeRoot);
+       // System.out.println("new tree total " + x);
         
-        
+    		//visit all the leaf nodes
+    		//use a stack to find all the leaf nodes and count the depth. 
+    	//base case
+    	
+    	if(treeRoot.left == null && treeRoot.right == null) return true; //because a tree is balanced if the difference <2 including 0.
+    		
+    		Deque<NodeDepth> stackNode  = new ArrayDeque<NodeDepth>();
+    		stackNode.add(new NodeDepth(treeRoot,0));
+    		    		
+    		ArrayList<Integer> depths = new ArrayList<Integer>();
+    		
+    		while(!stackNode.isEmpty()) {
+    			NodeDepth nodedepth = stackNode.pop();
+    			BinaryTreeNode n = nodedepth.n;
+    			int depth = nodedepth.Depth; 
+    			
+    			//is this node a leaf node? 
+    			if(n.left == null && n.right == null) {
+    				if(!depths.contains(depth)) {
+    					depths.add(depth);
+    				}
+    				
+    				if(depths.size() > 2 || depths.size() == 2 && Math.abs(depths.get(0)-depths.get(1)) >= 2) { 
+    				return false;
+    				}
+    				
+    			} else {
+    				if(n.left != null) {
+    					stackNode.add(new NodeDepth(n.left, depth + 1));
+    				}
+    				if(n.right != null) {
+    					stackNode.add(new NodeDepth(n.right, depth+1));
+    				}
+    			}
+    		}
+    	//get the depth of the leaf node, add it to a depth list if it doesn't exist. 
+    	//if you have more than 1 different depth, check if the 2 depths are more than 1 leaf node apart. if they're 2 leaf nodes, return false 
 
-        return false;
+        return true;
     }
 
+    //TO DO: 
+    //think of what to do if you have 3 different depths. in what scenario would that be possible? 3,4,5
+
+    
+    
+   /* public static int travTest(BinaryTreeNode root,  int sum) {
+    	if(root == null) return 0;
+    	
+    	System.out.print(root.value + " ");
+    	int left = 1 + travTest(root.left);
+    	int right = 1 + travTest(root.right);
+    	System.out.print("total for this tree" + (left +right));
+
+    	return left+right;
+    }*/
 
 
 
