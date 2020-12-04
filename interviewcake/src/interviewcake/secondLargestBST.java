@@ -35,60 +35,42 @@ public class secondLargestBST {
         // find the second largest item in the binary search tree
     	if(rootNode == null) throw new IllegalArgumentException ("empty tree"); //it should be an exception for an empty tree
     	if(rootNode.right == null && rootNode.left == null ) throw new IllegalArgumentException("no second node in tree"); //why cant we just return the root? OH because its not the second largest
-    	    	
-    	int max = -1; //idk if this should be -1
     	
-    	if(rootNode.right != null) {
-    		max = secondMaxRight(rootNode.right, rootNode.value);
-    	} else if(rootNode.left != null){
-    		max = secondMaxLeft(rootNode.left); //this is where my code is failing. its only checking the left subtree for the root. it needs 
-    		//to check it for right most node as well or well ALL nodes. 
-    	}
-    	
-        return max;
-    }
-
-    public static int secondMaxRight(BinaryTreeNode node, int parentVal) {
-    	if(node == null) return -1;
-    	
-    	int max = secondMaxRight(node.right, node.value);
-    	
-    	//is current node leaf node? return parent val
-    	if(max == -1) {
-    		return parentVal; //will not work for left subtree, you need to return the current nodes value 
-    	}
-    	
-    	return max; //not sure if i should return the current nodes value. nope. it should return what the child returns. 
-    	
+    	if(rootNode.right == null && rootNode.left != null) return secondMaxLeft(rootNode.left);
+    			
+    	return secondMaxRight(rootNode);
     }
     
-    public static int secondMaxLeft(BinaryTreeNode node) {
-    	if(node == null) return -1; 
-    	
-    	int max = secondMaxLeft(node.right);
-    	
-    	if(max == -1)
-    		max = node.value; 
-    	
-    	return max;
-    }
-
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static int secondMaxRight(BinaryTreeNode node) {
+    	
+    	BinaryTreeNode rightChild = node.right;
+    	int max = node.value; 
+    	
+    	if(rightChild.right != null) { 
+    		return secondMaxRight(node.right);
+    	}
+    	// if this highest node has a left subtree, the second highest is in there. else return this nodes parent
+    	//we can either be at the parent or we can save the value of the parent. i decided to be at the parent. 
+    
+    	if(rightChild.left != null) {
+    		max = secondMaxLeft(rightChild.left);
+    		//problem is this stops at the parent. but i need the right node. how do i do that? i get confused.
+    		//i just created another method that goes all way to the right node from this node. 
+    		 
+    	}
+    	
+    	
+    	return max; //how do you return the parent? change the base statement to stop 2 before the leaf
+    }
+    
+    public static int  secondMaxLeft(BinaryTreeNode node) {
+    	if(node.right != null) {
+    		return secondMaxLeft(node.right);
+    	}
+    	
+    	return node.value; 
+    }
 
     // tests
 
