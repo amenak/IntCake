@@ -7,6 +7,9 @@ import org.junit.runner.notification.Failure;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class secondLargestBST {
 
     public static class BinaryTreeNode {
@@ -30,7 +33,7 @@ public class secondLargestBST {
         }
     }
 
-    public static int findSecondLargest(BinaryTreeNode rootNode) {
+    /*public static int findLargest(BinaryTreeNode rootNode) {
 
         // find the second largest item in the binary search tree
     	if(rootNode == null) throw new IllegalArgumentException ("empty tree"); //it should be an exception for an empty tree
@@ -57,9 +60,7 @@ public class secondLargestBST {
     		max = secondMaxLeft(rightChild.left);
     		//problem is this stops at the parent. but i need the right node. how do i do that? i get confused.
     		//i just created another method that goes all way to the right node from this node. 
-    		 
     	}
-    	
     	
     	return max; //how do you return the parent? change the base statement to stop 2 before the leaf
     }
@@ -70,8 +71,76 @@ public class secondLargestBST {
     	}
     	
     	return node.value; 
+    }*/
+    
+    
+    //iterative approach cleaner
+    public static int findSecondLargest1(BinaryTreeNode rootNode) {
+
+        // find the second largest item in the binary search tree
+        if(rootNode == null || (rootNode.left == null && rootNode.right == null)){
+            throw new IllegalArgumentException("Invalid Tree");
+        }
+        
+        //get to the right most node (largest node) and return parent if node has no left subtree
+        //if there is left subtree, return the largest node 
+        
+        int parentValue = rootNode.value;
+        BinaryTreeNode curr = rootNode;
+
+        while(true){ //rethink condition
+            
+            if (curr.right == null){ //largest node reached 
+                
+                //check if it has left subtree
+                if(curr.left != null){
+                    return findLargest(curr.left);
+                }
+                
+                break;
+                
+            }
+            
+            parentValue = curr.value; 
+            curr = curr.right;
+        }
+        
+        
+
+        return parentValue;
     }
 
+    public static int findLargest(BinaryTreeNode node){
+        
+        //recurse all the way to the right most node. stop before you hit a null node
+        if(node.right != null){
+            return findLargest(node.right); 
+        }
+        
+        return node.value; 
+        
+    }
+    
+    
+    //Brute Force takes O(N) time to visit each node and O(2N) space for call stack and array
+    public static int findSecondLargest(BinaryTreeNode rootNode) {
+    	if(rootNode == null || (rootNode.left == null && rootNode.right == null)) {
+    		throw new IllegalArgumentException("Tree is invalid.");
+    	}
+    	List<Integer> arr = new ArrayList<Integer>();
+    	//fill array
+    	InOrderTraversal(rootNode, arr);
+    	return arr.get(arr.size()-2);
+    }
+    
+    public static void InOrderTraversal(BinaryTreeNode Node, List<Integer> arr) {
+    	if(Node == null) return; 
+    	
+    	InOrderTraversal(Node.left, arr);
+    	arr.add(Node.value);
+    	InOrderTraversal(Node.right, arr);
+    }
+    
     // tests
 
     @Test
@@ -83,7 +152,7 @@ public class secondLargestBST {
         final BinaryTreeNode b = root.insertRight(70);
         b.insertLeft(60);
         b.insertRight(80);
-        final int actual = findSecondLargest(root);
+        final int actual = findSecondLargest1(root);
         final int expected = 70;
         assertEquals(expected, actual);
     }
@@ -95,7 +164,7 @@ public class secondLargestBST {
         a.insertLeft(10);
         a.insertRight(40);
         root.insertRight(70).insertLeft(60);
-        final int actual = findSecondLargest(root);
+        final int actual = findSecondLargest1(root);
         final int expected = 60;
         assertEquals(expected, actual);
     }
@@ -109,7 +178,7 @@ public class secondLargestBST {
         final BinaryTreeNode b = root.insertRight(70).insertLeft(60);
         b.insertLeft(55).insertRight(58);
         b.insertRight(65);
-        final int actual = findSecondLargest(root);
+        final int actual = findSecondLargest1(root);
         final int expected = 65;
         assertEquals(expected, actual);
     }
@@ -121,7 +190,7 @@ public class secondLargestBST {
         a.insertLeft(10);
         a.insertRight(40);
         root.insertRight(70);
-        final int actual = findSecondLargest(root);
+        final int actual = findSecondLargest1(root);
         final int expected = 50;
         assertEquals(expected, actual);
     }
@@ -130,7 +199,7 @@ public class secondLargestBST {
     public void descendingLinkedListTest() {
         final BinaryTreeNode root = new BinaryTreeNode(50);
         root.insertLeft(40).insertLeft(30).insertLeft(20);
-        final int actual = findSecondLargest(root);
+        final int actual = findSecondLargest1(root);
         final int expected = 40;
         assertEquals(expected, actual);
     }
@@ -139,7 +208,7 @@ public class secondLargestBST {
     public void ascendingLinkedListTest() {
         final BinaryTreeNode root = new BinaryTreeNode(50);
         root.insertRight(60).insertRight(70).insertRight(80);
-        final int actual = findSecondLargest(root);
+        final int actual = findSecondLargest1(root);
         final int expected = 70;
         assertEquals(expected, actual);
     }
@@ -147,12 +216,12 @@ public class secondLargestBST {
     @Test(expected = Exception.class)
     public void exceptionWithTreeThatHasOneNodeTest() {
         final BinaryTreeNode root = new BinaryTreeNode(50);
-        findSecondLargest(root);
+        findSecondLargest1(root);
     }
 
     @Test(expected = Exception.class)
     public void exceptionWithEmptyTreeTest() {
-        findSecondLargest(null);
+        findSecondLargest1(null);
     }
 
     public static void main(String[] args) {
