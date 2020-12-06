@@ -71,41 +71,33 @@ public class graphColoring {
     			maxDegree = degree;    		
     	}
     	
-    	//System.out.println(maxDegree + 1);
     	
     	//from the colors passed in use only those colors 
-    	List <String> availableColors = new ArrayList<String>(); 
+    	List <String> availableColors = new ArrayList<String>(); //O(N) do not need to do this use the passed in colors
     	for(int i=0; i < (maxDegree+1); i++) availableColors.add(colors[i]);
     	
     	//loop through each node in the graph. loop through its sets of neighbors. init a list of availble color, poping colors not available, assign one of the colors to the node. 
     	for(GraphNode node: graph) {
-    		//System.out.println(node.label + " node parent ");
-    		List<String> allowedColors = new ArrayList<String>(availableColors);
-    		 
     		
-    		
-	    		Iterator<GraphNode> neighbor = node.getNeighbors().iterator();
+    		List<String> allowedColors = new ArrayList<String>(availableColors); //O(N) to copy over list. wrong data structure
+	    		
+    		Iterator<GraphNode> neighbor = node.getNeighbors().iterator();
 	    		while(neighbor.hasNext()) {
+	    			GraphNode n = neighbor.next(); //use .next() only once to grab the object. dont use it multiple times in the code. 
 	    			
-	    			GraphNode n = neighbor.next();
-	    			
-	    			//System.out.println("neightbor :" + n.getLabel());
 	    			String colorOfNeighbor = null;
 	    			if(n.hasColor())
 	    			{
 	    				colorOfNeighbor = n.getColor(); 
 	    			}// its throwing an exception of "no value present here and terminates early"
 	    			
-	    			if(colorOfNeighbor != null && allowedColors.contains(colorOfNeighbor)) 
+	    			if(colorOfNeighbor != null && allowedColors.contains(colorOfNeighbor)) //O(N) to use contains in List. Set takes O(1)
 	    			{
-	    				allowedColors.remove(colorOfNeighbor);
+	    				allowedColors.remove(colorOfNeighbor); //O(N) to remove in list. Set takes o(1) 
 	    			}
-	    		} //this while loop skips c!
+	    		} 
     		
-    		
-    		//System.out.println(allowedColors.size() + " colors allowed for node"); //it never reaches this code 
-    		node.setColor(allowedColors.get(0)); //assign the remaining color. 
-    		//System.out.println(node.getColor() + " node set to this color");
+        		node.setColor(allowedColors.get(0)); //assign the remaining color. 
     		
     	}
         
@@ -120,6 +112,10 @@ public class graphColoring {
 /*MISTAKES
  * I did not check if the neighbor had a color or not before removing it from the list. Its an optional object but you must check if null
  * Driving myself crazy because of lack of understanding of iterators! it.next() should only be used once! don't use it as a way to access the object in the code. 
+ * to loop set without iterator for(GraphNode node : node.getNeighbors)
+ * did not need to find maximum degree. (not sure why yet)
+ * did not check for graph loops. if one the current node is its own neighbor, throw exception 
+ * used the wrong data structure for removal and contains. Set would've been ideal as list takes O(N) time
   */  
 
 
