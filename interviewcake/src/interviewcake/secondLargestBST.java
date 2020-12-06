@@ -74,7 +74,7 @@ public class secondLargestBST {
     }*/
     
     
-    //iterative approach cleaner
+    //iterative approach cleaner - does not pass test idk y
     public static int findSecondLargest1(BinaryTreeNode rootNode) {
 
         // find the second largest item in the binary search tree
@@ -85,29 +85,42 @@ public class secondLargestBST {
         //get to the right most node (largest node) and return parent if node has no left subtree
         //if there is left subtree, return the largest node 
         
-        int parentValue = rootNode.value;
+        //int parentValue = rootNode.value; //you can remove this and always be at the parent node so you could return the value
+        
         BinaryTreeNode curr = rootNode;
-
-        while(true){ //rethink condition
+        
+        while(true){ //true works because 
             
-            if (curr.right == null){ //largest node reached 
+        	BinaryTreeNode rightChild = curr.right;
+        	System.out.println(curr.value + " " + curr.left.value + " ihi" + curr.right.value);
+        	
+        	
+        	
+        	if( curr.left != null && curr.right == null) {
+        		System.out.print(curr.right.value + ", ");
+        	 return findLargest(curr.left);	
+        	}
+        	
+            if (rightChild.right == null){ // parent node of largest node reached 
                 
                 //check if it has left subtree
-                if(curr.left != null){
-                    return findLargest(curr.left);
+                if(rightChild.left != null){
+                    return findLargest(rightChild.left);
                 }
-                
-                break;
-                
+               
+                return curr.value;
             }
             
-            parentValue = curr.value; 
+            if(rightChild.right == null ) {
+            	return curr.value;
+            }
+
+            
             curr = curr.right;
         }
         
+       
         
-
-        return parentValue;
     }
 
     public static int findLargest(BinaryTreeNode node){
@@ -197,6 +210,7 @@ public class secondLargestBST {
 
     @Test
     public void descendingLinkedListTest() {
+    	System.out.print("ey");
         final BinaryTreeNode root = new BinaryTreeNode(50);
         root.insertLeft(40).insertLeft(30).insertLeft(20);
         final int actual = findSecondLargest1(root);
