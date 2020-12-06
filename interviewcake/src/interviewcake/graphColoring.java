@@ -56,7 +56,7 @@ public class graphColoring {
     }
 
     //BRUTEFORCE
-    public static void colorGraph(GraphNode[] graph, String[] colors) {
+    public static void colorGraph1(GraphNode[] graph, String[] colors) {
 
         // create a valid coloring for the graph
         if(graph == null) throw new IllegalArgumentException("Graph is empty or null"); 
@@ -106,9 +106,51 @@ public class graphColoring {
 
     }
 
+    //redo from mem
+    public static void colorGraph(GraphNode[] graph, String[] colors) { 
+
+        if(graph == null) throw new IllegalArgumentException("graph is empty");
+        if(graph.length < 2) throw new IllegalArgumentException("graph has less than 2 nodes. unable to color");
+        
+        //loop through every node in the graph
+        for(GraphNode node : graph) {
+        	
+        	
+        	
+        	Set<String> unavailableColors = new HashSet<>();
+        	for(GraphNode neighbor : node.getNeighbors()) {
+        		
+        		//check for graph loops
+        		if(neighbor.getLabel().equals(node.getLabel())) {
+        			throw new IllegalArgumentException("Graph has loop. unable to set legal coloring" + node.getLabel());	//why dont i have to declare this for IllegalArgumentException
+        		}
+        		
+        		if(neighbor.hasColor()) {
+        			unavailableColors.add(neighbor.getColor()); //what happens if you try to add an element that already exists in a set? 	
+        		}
+        	}
+        	
+        	for(String c : colors) {
+        		if(!unavailableColors.contains(c)) {
+        			node.setColor(c);
+        			break;
+        		}
+        	}
+        }
+        //loop through all neighbors and make a set of unavailable colors
+        //loop though colors array and find a color thats available
+        //assign the color to current node 
+        
+        
+
+    }
 
 
-
+    
+    
+    
+    
+    
 /*MISTAKES
  * I did not check if the neighbor had a color or not before removing it from the list. Its an optional object but you must check if null
  * Driving myself crazy because of lack of understanding of iterators! it.next() should only be used once! don't use it as a way to access the object in the code. 
