@@ -54,6 +54,40 @@ public class graphColoring {
             this.color = Optional.ofNullable(color);
         }
     }
+    
+    //From mem second day
+    public static void colorGraph(GraphNode[] graph, String[] colors) {
+    	//loop through graph for each node.
+    	//loop though all neighbors and make a list of illegal colors
+    	//loop though colors and pick the first one thats not in the illegal list
+    	
+    	//handle edge cases. no edges, loops, cycles. we dont care about 0 neighbors or having cycles as this is not a graph traversal.
+    	//we dont care about isolated nodes as that node can be any color, because its not adjacent to anything
+    	//cycles dont concern us because were not using any of the adjacent nodes to get to the next node. we have an array of node. 
+    	//loops we care about because if a node is adjacent to itself. then it can't have different colors. 
+        
+    	for(GraphNode node : graph) {
+
+    		Set<String> illegalColors = new HashSet<>();
+    		for(GraphNode n : node.getNeighbors()) {
+    			if(n.getLabel() == node.getLabel()) {
+    				throw new IllegalArgumentException("can not color graph with loop"); 
+    			}
+    			
+    			if(n.hasColor()) {
+    				illegalColors.add(n.getColor());
+    			}
+    		}
+    		
+    		for(String c : colors) {
+    			if(!illegalColors.contains(c)) {
+    				node.setColor(c);
+    				break;
+    			}
+    		}
+    	}
+    
+    }
 
     //BRUTEFORCE
     public static void colorGraph1(GraphNode[] graph, String[] colors) {
@@ -107,7 +141,7 @@ public class graphColoring {
     }
 
     //redo from mem
-    public static void colorGraph(GraphNode[] graph, String[] colors) { 
+    public static void colorGraph2(GraphNode[] graph, String[] colors) { 
 
         if(graph == null) throw new IllegalArgumentException("graph is empty");
         if(graph.length < 2) throw new IllegalArgumentException("graph has less than 2 nodes. unable to color");
@@ -155,9 +189,10 @@ public class graphColoring {
  * I did not check if the neighbor had a color or not before removing it from the list. Its an optional object but you must check if null
  * Driving myself crazy because of lack of understanding of iterators! it.next() should only be used once! don't use it as a way to access the object in the code. 
  * to loop set without iterator for(GraphNode node : node.getNeighbors)
- * did not need to find maximum degree. (not sure why yet)
+ * did not need to find maximum degree, there was no requirement to not use colors greater than (d+1) the minimum required numbered of colors. d being the # of edges for that node
  * did not check for graph loops. if one the current node is its own neighbor, throw exception 
  * used the wrong data structure for removal and contains. Set would've been ideal as list takes O(N) time
+ * I did not understand time complexity O(N+M). but m is the total # of edges we will visit, which is fewer than N*D. saying M is more accurate 
   */  
 
 
