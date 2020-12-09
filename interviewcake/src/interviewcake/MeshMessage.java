@@ -28,21 +28,21 @@ public class MeshMessage {
         paths.put(startNode, null);
     	q.add(startNode);
         
-        while(!q.isEmpty()) { //infinite loop q is never empty? 
+        while(!q.isEmpty()) { //infinite loop q is never empty? wrong add to path map
         	String node = q.pop();
 
-        	if(node.equals(endNode)) { //can i do == with two strings?
+        	if(node.equals(endNode)) { //can i do == with two strings? No
         		break; 
         	}
         	
         	String [] nodeNeighbors = graph.get(node);
         	for(int i=0; i < nodeNeighbors.length; i++) {
         		String neighbor = nodeNeighbors[i];
-        		if(!paths.containsKey(neighbor)) { //how do we check if something exists in a map
+        		if(!paths.containsKey(neighbor)) { //how do we check if something exists in a map - containsKey
         			paths.put(neighbor, node);
         			q.add(neighbor);
         		}
-        		//add to pathmap - how do you add to a map
+        		//add to pathmap - how do you add to a map -put
         		
         	}        	
         	
@@ -50,7 +50,7 @@ public class MeshMessage {
         
         
         //return the path
-        //how do you declare a list
+        //how do you declare a list - had wrong library
         List<String> finalPath = new ArrayList<String>(); 
         String current = endNode;
         //we start with the end node in the map. we keep looping until we reach the start node. 
@@ -65,14 +65,19 @@ public class MeshMessage {
         
         Collections.reverse(finalPath);
         
-        //how do i return a list as a string array
+        //how do i return a list as a string array. pass it as a param
         
         return finalPath.toArray(new String[finalPath.size()]); 
     }
 
 
 
-
+/*Lessons Learned
+ * BFS will give you the shortest path
+ * Don't forget to mark the seen nodes
+ * Use a map to keep track of paths 
+ * HashMaps or arrays can be used to store graphs. they don't need to be stored in a traditional GraphNode class.
+ * */
 
 
 
