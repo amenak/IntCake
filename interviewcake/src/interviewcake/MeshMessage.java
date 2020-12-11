@@ -20,6 +20,8 @@ public class MeshMessage {
     public static String[] getPath(Map<String, String[]> graph, String startNode, String endNode) {
     	if(graph == null || startNode == null || endNode == null) throw new IllegalArgumentException("parameters can not be null");
     	if(!graph.containsKey(endNode)) throw new IllegalArgumentException("End Node does not exist in the graph");
+    	if(startNode.equals(endNode)) return new String [] {startNode}; //so you dont traverse the entire tree 
+    	
     	//BFS for shortest path 
     	
     	Deque<String> q = new ArrayDeque<String>(); 
