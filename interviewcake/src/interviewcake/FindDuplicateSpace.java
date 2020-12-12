@@ -23,8 +23,7 @@ public class FindDuplicateSpace {
     	int end = numbers.length-1; 
     	int midPoint = 0;
     	
-    	while(start<=end) {
-     		if(start == end ) return start;    		
+    	while(start< end) {    		
      		
      		midPoint = ((end-start) + 1)/2; //1/2 = 0. midpoint shouldn't be 0 if theres 2 numbers. 
     		
@@ -57,7 +56,7 @@ public class FindDuplicateSpace {
     		
     	}
 
-        return 0;
+        return start;
     }
 
 
