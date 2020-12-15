@@ -67,14 +67,14 @@ public class BalancedTree121320 {
 	
     		}else {
     		
-    		if(node.left != null) {
-    			//DEPTH++ will not work!!
-    			nodesVisited.add(new NodePair(node.left, depth + 1)); 
-    		}
-    		
-    		if(node.right != null) {
-    			nodesVisited.add(new NodePair(node.right, depth + 1));
-    		}
+	    		if(node.left != null) {
+	    			//DEPTH++ will not work!!
+	    			nodesVisited.add(new NodePair(node.left, depth + 1)); 
+	    		}
+	    		
+	    		if(node.right != null) {
+	    			nodesVisited.add(new NodePair(node.right, depth + 1));
+	    		}
     		
     		}
     	}
@@ -84,32 +84,31 @@ public class BalancedTree121320 {
     }
     
     
-    //recursive approach
+    //recursive approach - doesnot work for linear binary tree
     public static boolean isBalanced(BinaryTreeNode treeRoot) {
     	if(treeRoot == null) return true;
     		
-    	
-        return depthCheck(treeRoot.left) && depthCheck(treeRoot.right);
+        return checkHeightBalanced(treeRoot);
     }
     
-    public static boolean depthCheck(BinaryTreeNode node) {
+    public static boolean checkHeightBalanced(BinaryTreeNode node) { //to pass the linked list test you need to check if the current node is a leaf node
     	if(node == null) return true;
-    
-    	depthCheck(node.left);
-    	int left = depthSubtree(node.left);
-    	int right = depthSubtree(node.right);    	
+
+    	int left = FindHeight(node.left);
+    	int right = FindHeight(node.right);
+    	
+    	
     	if(Math.abs(left-right) > 1) 
     		return false;
-    	depthCheck(node.right);
     	
-    	return true;
+    	return checkHeightBalanced(node.left) && checkHeightBalanced(node.right);
     }
     
-    public static int depthSubtree(BinaryTreeNode node) {
+    public static int FindHeight(BinaryTreeNode node) {
     	if(node == null) return 0;
     	
-    	int left = depthSubtree(node.left);
-    	int right = depthSubtree(node.right);
+    	int left = FindHeight(node.left);
+    	int right = FindHeight(node.right);
     	
     	return 1 + Math.max(left, right); 
     	
