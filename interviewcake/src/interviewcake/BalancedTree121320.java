@@ -78,26 +78,23 @@ public class BalancedTree121320 {
     		
     		}
     	}
-    	
-    	
     	return true;
     }
     
     
-    //recursive approach - doesnot work for linear binary tree
+    //recursive approach - doesnot work for linear binary tree O(N^2)
     public static boolean isBalanced(BinaryTreeNode treeRoot) {
-    	if(treeRoot == null) return true;
+    	if(treeRoot == null) return true; //empty tree is balanced
     		
         return checkHeightBalanced(treeRoot);
     }
     
-    public static boolean checkHeightBalanced(BinaryTreeNode node) { //to pass the linked list test you need to check if the current node is a leaf node
+    public static boolean checkHeightBalanced(BinaryTreeNode node) { //to pass the linked list test you need to check if the current node is a leaf node?
     	if(node == null) return true;
 
-    	int left = FindHeight(node.left);
-    	int right = FindHeight(node.right);
-    	
-    	
+    	int left = FindHeight(node.left); //0
+    	int right = FindHeight(node.right); //1?
+    
     	if(Math.abs(left-right) > 1) 
     		return false;
     	
