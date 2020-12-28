@@ -13,12 +13,12 @@ public class FindDuplicateBeast122720 {
     	if(intArray.length < 2 ) throw new IllegalArgumentException("array must contain more than one element to find duplicate");
     	
     	//1. get inside the cycle.  go all the way to end of the list 
-    	int n = intArray.length - 1; //changed this to -1, again why??
+    	int n = intArray.length - 1; //n is the number of unique elements in the list, n + 1 would be the length
     	
-    	int positionIncycle = n + 1; //why is it n+1
+    	int positionIncycle = n + 1; //the last position in the cycle is the number of unique elements + 1. 5 unique elements, 6 positions. 
     	
     	for(int i=0; i < n; i++) {
-    		positionIncycle = intArray[positionIncycle - 1 ]; //okay not 100 percent sure why i did it like this. 
+    		positionIncycle = intArray[positionIncycle - 1 ]; //to access the index in the array, index = position - 1; because positions start from 1 not 0
     	}
     	
     	
@@ -34,20 +34,20 @@ public class FindDuplicateBeast122720 {
     	}
     	
     	//3. start from the begining of the cycle with a slow pointer and a fast pointer. move them one at a time until they both meet. 
-    	int slowPointer = n+1;//intArray[n-1]; //still confused about the head of the list
-    	int fastPointer = n+1; //intArray[n-1];
+    	int slowPointerPos = n+1;//start at the head of the list. remember this is the position number not the value of the element in that position. 
+    	int fastPointerPos = n+1; 
     	for(int i=0; i < counter; i++) {
-    		fastPointer = intArray[fastPointer-1]; //moves the length amount. alittle confused about visualizing it here
+    		fastPointerPos = intArray[fastPointerPos-1]; //moves the length amount. alittle confused about visualizing it here
     	}
     	
-    	while(fastPointer != slowPointer) {
-    		fastPointer = intArray[fastPointer -1];
-    		slowPointer = intArray[slowPointer -1];
+    	while(fastPointerPos != slowPointerPos) {
+    		fastPointerPos = intArray[fastPointerPos -1];
+    		slowPointerPos = intArray[slowPointerPos -1];
     	}
     	//4. return the slow pointer 
         
 
-        return slowPointer;
+        return slowPointerPos;
     }
 
 
