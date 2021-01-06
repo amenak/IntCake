@@ -14,7 +14,7 @@ public class NthFibonacci {
     	if( n < 0) throw new IllegalArgumentException("can not pass in negative number");
     	if( n <= 1 ) return n;
     	
-    	int num1 = 1;
+    	int num1 = 0; // if fib(0) = 1 , change to 1. typically fib(0) = 0 
     	int num2 = 1;
     	//int sum = num1 + num2; 
     	
