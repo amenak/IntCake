@@ -1,6 +1,7 @@
 package interviewcake.DynamicProgrammingRecursion;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class RecursiveStringPermutation {
 
-    public static Set<String> getPermutations(String inputString) {
+    public static Set<String> getPermutations1(String inputString) {
     	Set<String> newSet = new HashSet<>();
     	
     	if(inputString.length() <= 1) { //if empty string with 0 length, you need to still return a set with an empty string. 
@@ -24,6 +25,7 @@ public class RecursiveStringPermutation {
     		//cut off first character //will it pass in empty string??
 	    	Set<String> prevSet = getPermutations(inputString.substring(1)); //O(N) -2 ish
 	    	char beginingChar = inputString.charAt(0);
+	    	
 	    	
 	    	for(String s : prevSet) { //O(N!)
 	    		String word = beginingChar + s; //can i add a char like this to a string
@@ -49,7 +51,32 @@ public class RecursiveStringPermutation {
 //Space: O(n)
 
 
+    public static Set<String> getPermutations(String inputString) {
 
+        // base case
+        if (inputString.length() <= 1) {
+            return new HashSet<>(Collections.singletonList(inputString));
+        }
+
+        String allCharsExceptLast = inputString.substring(0, inputString.length() - 1);
+        char lastChar = inputString.charAt(inputString.length() - 1);
+
+        // recursive call: get all possible permutations for all chars except last
+        Set<String> permutationsOfAllCharsExceptLast = getPermutations(allCharsExceptLast);
+
+        // put the last char in all possible positions for each of the above permutations
+        Set<String> permutations = new HashSet<>();
+        for (String permutationOfAllCharsExceptLast : permutationsOfAllCharsExceptLast) {
+            for (int position = 0; position <= allCharsExceptLast.length(); position++) {
+            	//System.out.println(permutationOfAllCharsExceptLast.substring(0,0));
+                String permutation = permutationOfAllCharsExceptLast.substring(0, position) + lastChar
+                    + permutationOfAllCharsExceptLast.substring(position);
+                permutations.add(permutation);
+            }
+        }
+
+        return permutations;
+    }
 
 
 
