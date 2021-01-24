@@ -39,6 +39,7 @@ public class CakeThief {
     	for(int currentCapacity=1; currentCapacity <= weightCapacity; currentCapacity++) {
     		for(CakeType cake : cakeTypes) {
     			
+    			//Cake type of 0 weight and 5 value is wrong.
     			if(cake.weight == 0 && cake.value > 0) {
     				throw new InfinityException();
     			}
