@@ -42,7 +42,9 @@ public class QueueTwoStacks1 {
         }
     }
 
-
+//TIME COMPLEXITY
+//O(n) space
+//O(1) enqueue and dequeue
 
 
 
