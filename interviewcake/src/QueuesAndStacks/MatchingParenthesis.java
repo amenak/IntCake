@@ -13,32 +13,27 @@ public class MatchingParenthesis {
     	
     	
         // find the position of the matching closing parenthesis
-    	
-    	//String tracker = "";
-    	StringBuilder parenthesis = new StringBuilder();
-    	
+    
+    	int parenthesisCounter = 0;
         for(int i=openingParenIndex; i <sentence.length(); i++) {
         	if(sentence.charAt(i) == '(') {
-        		parenthesis.append("("); //string builder amortizes to O(1)
-        		//tracker += "("; can take up to n^2
+        		parenthesisCounter++;
         	}
-        	if(sentence.charAt(i) == ')' && parenthesis.length() != 0) {
-        		//String chopped = parenthesis.substring(0, parenthesis.length()-1); //how do you replace the current string builder..
-        		parenthesis.deleteCharAt(parenthesis.length()-1);
-        		//tracker = tracker.substring(0, tracker.length()-1);
+        	if(sentence.charAt(i) == ')') {
+        		parenthesisCounter--;
         	}
         	
-        	if(parenthesis.length() == 0) {
+        	if(parenthesisCounter == 0) {
         		return i;
         	}
         }
         
-        if(parenthesis.length() != 0)
-        	throw new IllegalArgumentException("Parenthesis has no closer");
+        throw new IllegalArgumentException("Parenthesis has no closer");
         
-        return -1;
-
     }
+    
+   //O(N) TIME
+    //O(1) SPACE
 
 
 
