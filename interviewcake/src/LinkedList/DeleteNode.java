@@ -23,14 +23,17 @@ public class DeleteNode {
     public static void deleteNode(LinkedListNode nodeToDelete) {
 
         // delete the input node from the linked list
-    	if(nodeToDelete == null) return;
+    	if(nodeToDelete == null) return; //original solution did not test for this.
     	
-    	if(nodeToDelete.next == null) {
-    		nodeToDelete = null; //dead node. but you can't set value to null, so i set the entire node to null.  
+    	if(nodeToDelete.next != null) {
+    		nodeToDelete.value = nodeToDelete.next.value;
+        	nodeToDelete.next = nodeToDelete.next.next;
+    	} else {
+    		//nodeToDelete = null; //dead node. but you can't set value to null, so i set the entire node to null.
+    		throw new IllegalArgumentException("Can not delete last node with this method");
     	}
     	
-    	nodeToDelete.value = nodeToDelete.next.value;
-    	nodeToDelete.next = nodeToDelete.next.next;
+    	
     	
     	
     }
@@ -113,6 +116,12 @@ public class DeleteNode {
     public void oneNodeListTest() {
         LinkedListNode head = new LinkedListNode(1);
         deleteNode(head);
+    }
+    
+    @Test//(expected = Exception.class)
+    public void nullNodeListTest() {
+        //LinkedListNode head = new LinkedListNode(1);
+        deleteNode(null);
     }
 
     private static LinkedListNode appendToList(final LinkedListNode head, int value) {
