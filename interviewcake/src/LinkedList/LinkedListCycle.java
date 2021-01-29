@@ -27,12 +27,8 @@ public class LinkedListCycle {
     	LinkedListNode slow = firstNode; 
     	
     	while(fast != null && fast.next != null) {
-    		if(fast.next != null) //this can be moved to while clause. you're ALWAYS checking if the fast.next is not equal to null and returning false, the same outcome when the loop exits
-    			fast = fast.next.next; //what if fast.next is null, how are you supposed to find the next of that?won't it throw an error.yep
-    		else {
-    			return false; //messy but passes all tests.
-    		}
     		
+    		fast = fast.next.next; 
     		slow = slow.next;
     		
     		if(slow == fast) {
