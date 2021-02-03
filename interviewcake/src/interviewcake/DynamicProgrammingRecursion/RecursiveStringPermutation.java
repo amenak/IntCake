@@ -47,7 +47,7 @@ public class RecursiveStringPermutation {
     }
 
 
-//Complexity: O(n^2 * n!) ? not sure. it is O(N!) explained in notes
+//Complexity: O(N!) explained in notes 1/30/21
 //Space: O(n)
 
 

@@ -22,7 +22,7 @@ public class ReverseLinkedList {
     public static LinkedListNode reverse(LinkedListNode headOfList) {
 
         // reverse the linked list in place
-    	if(headOfList == null) return null; //or throw exception?
+    	//if(headOfList == null) return null; //or throw exception?
         
     	LinkedListNode prev = null; 
     	LinkedListNode current = headOfList;
