@@ -29,7 +29,7 @@ public class KthLastNode {
     	
         LinkedListNode fast = head;
         for(int i=1; i < k; i++) {
-        	if(fast == null || fast.next == null)
+        	if(fast.next == null) // did not need fast == null
         		throw new IllegalArgumentException("kth node does not exist.");
         		
         	fast = fast.next;
@@ -38,8 +38,8 @@ public class KthLastNode {
         }
         
         LinkedListNode slow = head;
-        
-        while(fast != null && fast.next != null) { //what if fast is null starting out .. fast!=null
+
+        while(fast.next != null) { //what if fast is null starting out .. fast!=null
         	slow = slow.next;
         	fast = fast.next;
         }
