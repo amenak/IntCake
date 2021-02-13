@@ -24,8 +24,8 @@ public class FindUniqueInt {
     }
 
 
-
-
+//O(N) time 
+//O(1) space
 
 
 
