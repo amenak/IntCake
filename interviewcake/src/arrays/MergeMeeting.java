@@ -69,7 +69,8 @@ public class MergeMeeting {
     }
 
     public static List<Meeting> mergeRanges(List<Meeting> meetings) {
-    	
+    	if(meetings.size() < 2) return meetings;
+
     	//Sort meeting times -- will not destroy orig 
     	List<Meeting> sortedMeetings = new ArrayList<>(meetings);
     	List<Meeting> mergedMeetings = new ArrayList<>();
@@ -86,6 +87,7 @@ public class MergeMeeting {
     			return 0;
     		}
     	});
+    	
     	
     	
     	//loop meeting times and merge 
