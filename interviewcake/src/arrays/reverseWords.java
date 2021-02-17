@@ -17,19 +17,16 @@ public class reverseWords {
     	
     	//reverse every word
     	int wordStartIdx = 0;
-        for(int i=0; i < message.length; i++) {
-        	if(message[i] == ' ') {
+        for(int i=0; i <= message.length; i++) {
+        	if(i == message.length || message[i] == ' ') {
         		revWordsHelper(wordStartIdx, i-1, message);
-        		
-        		
-        			wordStartIdx = i+1;
-        		
+        		wordStartIdx = i+1;
         	}
         	
         	//misses last word 
-        	if(i == message.length-1) {
+        	/*if(i == message.length-1) {
         		revWordsHelper(wordStartIdx, i, message); //should also reverse back a single word
-        	}
+        	}*/
         	
         }
         
