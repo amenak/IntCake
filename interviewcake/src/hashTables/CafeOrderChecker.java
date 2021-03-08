@@ -1,4 +1,4 @@
-package arrays;
+package hashTables;
 
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
