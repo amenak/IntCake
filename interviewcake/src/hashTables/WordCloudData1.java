@@ -19,8 +19,49 @@ public class WordCloudData1 {
         private void populateWordsToCounts(String inputString) {
 
             // count the frequency of each word
+            if(inputString.isEmpty()) return;
             
+        	char [] inputArray = inputString.toCharArray();
+        	int wordStartIdx = findWordStartIdx(0, inputArray);
+        	
+        	//System.out.println(wordStartIdx);
+        	
+        	for(int i=wordStartIdx; i <= inputArray.length; i++) {
+            	//check if its not a letter 
+        		if(i == inputArray.length || (!Character.isLetter(inputArray[i]) && inputArray[i] != '-' && inputArray[i] != '\'')) {
+        			
+        			String word = inputString.substring(wordStartIdx, i);
+        			String wordProper = word.substring(0,1).toUpperCase() + word.substring(1);
+        			
+        			//check map for key- lower case and proper case
+        			if(wordsToCounts.containsKey(word.toLowerCase())) {
+        				wordsToCounts.put(word.toLowerCase(), wordsToCounts.get(word.toLowerCase()) + 1);
+        			}else if (wordsToCounts.containsKey(wordProper)) { //it will be in proper case or other case .. 
+        				wordsToCounts.put(wordProper, wordsToCounts.get(wordProper) + 1); //if current word is lowercase, map has propercase it will add. 
+        			}else {
+        				wordsToCounts.put(word, 1);
+        			}
+        			
+        			//reset word start idx
+        			wordStartIdx = findWordStartIdx(i + 1, inputArray);
+        			i = wordStartIdx; //iterate from begining of next word
+        		}
+            }
 
+        }
+        
+        public int findWordStartIdx(int idx, char [] inputArray) {
+        	
+        	int startIdx = inputArray.length;
+        	
+        	for(int i = idx; i < inputArray.length; i++) {
+        		if(Character.isLetter(inputArray[i])) {
+        			startIdx = i;
+        			break; //forgot to exit loop
+        		}
+        	}
+        	
+        	return startIdx;
         }
 
         public WordCloudData(String inputString) {
